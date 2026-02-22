@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --water-primary: #00a9ff;
+  --water-secondary: #0087cc;
+  --water-accent: #4dc8ff;
+  --glass-bg: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: rgba(31, 38, 135, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Glassmorphic Utilities */
+@layer components {
+  .glass-card {
+    @apply bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl shadow-glass;
+  }
+
+  .glass-card-hover {
+    @apply glass-card transition-all duration-300 hover:bg-white/15 hover:shadow-glass-lg hover:scale-[1.02];
+  }
+
+  .glass-button {
+    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl px-6 py-3 
+           font-medium text-white transition-all duration-300 
+           hover:bg-white/20 hover:shadow-glass active:scale-95;
+  }
+
+  .glass-button-primary {
+    @apply bg-gradient-to-r from-water-500 to-water-600 backdrop-blur-md 
+           border border-water-400/30 rounded-xl px-6 py-3 
+           font-medium text-white transition-all duration-300 
+           hover:shadow-neon hover:scale-105 active:scale-95;
+  }
+
+  .glass-input {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 rounded-xl px-4 py-3 
+           text-white placeholder-white/40 transition-all duration-300 
+           focus:outline-none focus:border-water-400/50 focus:bg-white/10
+           focus:ring-2 focus:ring-water-400/20;
+  }
+
+  .glass-sidebar {
+    @apply bg-white/5 backdrop-blur-2xl border-r border-white/10;
+  }
+
+  .glass-navbar {
+    @apply bg-white/5 backdrop-blur-xl border-b border-white/10;
+  }
+
+  .stat-card {
+    @apply glass-card p-6 relative overflow-hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-br from-white/5 to-transparent;
+  }
+
+  .notification-badge {
+    @apply absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full 
+           flex items-center justify-center text-xs font-bold text-white 
+           animate-pulse-slow;
+  }
+
+  .water-wave {
+    @apply absolute bottom-0 left-0 w-[200%] h-24 bg-water-500/10 
+           rounded-t-[50%] animate-wave;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-water-300 via-water-400 to-water-500 
+           bg-clip-text text-transparent;
+  }
+
+  .glow-effect {
+    @apply relative;
+  }
+
+  .glow-effect::after {
+    content: '';
+    @apply absolute inset-0 bg-water-400/20 blur-xl rounded-full -z-10;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Background Animations */
+.bg-mesh {
+  background-image: 
+    radial-gradient(at 40% 20%, rgba(0, 169, 255, 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 0%, rgba(77, 200, 255, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 50%, rgba(0, 135, 204, 0.3) 0px, transparent 50%),
+    radial-gradient(at 80% 50%, rgba(0, 102, 153, 0.2) 0px, transparent 50%),
+    radial-gradient(at 0% 100%, rgba(0, 169, 255, 0.25) 0px, transparent 50%),
+    radial-gradient(at 80% 100%, rgba(77, 200, 255, 0.15) 0px, transparent 50%);
+}
+
+.bg-gradient-radial {
+  background: radial-gradient(ellipse at center, var(--tw-gradient-from), var(--tw-gradient-to));
+}
+
+/* Animated Background Orbs */
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  animation: float 8s ease-in-out infinite;
+}
+
+.bg-orb-1 {
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(135deg, #00a9ff, #0087cc);
+  top: -100px;
+  left: -100px;
+  animation-delay: 0s;
+}
+
+.bg-orb-2 {
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, #4dc8ff, #26b9ff);
+  top: 50%;
+  right: -100px;
+  animation-delay: 2s;
+}
+
+.bg-orb-3 {
+  width: 250px;
+  height: 250px;
+  background: linear-gradient(135deg, #006699, #004466);
+  bottom: -50px;
+  left: 30%;
+  animation-delay: 4s;
+}
+
+/* Water Drop Animation */
+@keyframes droplet {
+  0% {
+    transform: translateY(-100%) scale(0.8);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) scale(1);
+    opacity: 0;
+  }
+}
+
+.water-droplet {
+  position: absolute;
+  width: 4px;
+  height: 8px;
+  background: linear-gradient(to bottom, transparent, rgba(77, 200, 255, 0.6));
+  border-radius: 50%;
+  animation: droplet 3s linear infinite;
+}
+
+/* Table Styles */
+.glass-table {
+  @apply w-full;
+}
+
+.glass-table thead {
+  @apply bg-white/5;
+}
+
+.glass-table th {
+  @apply px-6 py-4 text-left text-sm font-semibold text-white/70 uppercase tracking-wider;
+}
+
+.glass-table td {
+  @apply px-6 py-4 text-sm text-white/90 border-t border-white/5;
+}
+
+.glass-table tbody tr {
+  @apply transition-colors duration-200 hover:bg-white/5;
+}
+
+/* Progress Bar */
+.progress-bar {
+  @apply h-2 bg-white/10 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+  @apply h-full bg-gradient-to-r from-water-400 to-water-500 rounded-full 
+         transition-all duration-500 ease-out;
+}
+
+/* Tooltip */
+.tooltip {
+  @apply relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  @apply absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5
+         bg-gray-900/90 backdrop-blur-sm text-white text-xs rounded-lg
+         opacity-0 invisible transition-all duration-200 whitespace-nowrap;
+}
+
+.tooltip:hover::after {
+  @apply opacity-100 visible;
+}
+
+/* Shimmer Loading Effect */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
