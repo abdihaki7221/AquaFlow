@@ -1,6 +1,8 @@
 'use client'
 
 import { useState } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search,
@@ -26,15 +28,37 @@ interface HeaderProps {
 export default function Header({ title, subtitle, user }: HeaderProps) {
   const [showNotifications, setShowNotifications] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
+  const pathname = usePathname()
+  const router = useRouter()
+
+  // Determine the base path for the current role
+  const getBasePath = () => {
+    if (pathname.includes('/dashboard/admin')) return '/dashboard/admin'
+    if (pathname.includes('/dashboard/staff')) return '/dashboard/staff'
+    if (pathname.includes('/dashboard/tenant')) return '/dashboard/tenant'
+    return '/dashboard'
+  }
+
+  const basePath = getBasePath()
 
   const notifications = [
-    { id: 1, title: 'Payment Received', message: 'Unit 4A paid KSH125.00', time: '5 min ago', unread: true },
+    { id: 1, title: 'Payment Received', message: 'Unit 4A paid KSH 2,500', time: '5 min ago', unread: true },
     { id: 2, title: 'New Tenant', message: 'John Doe has been onboarded', time: '1 hour ago', unread: true },
     { id: 3, title: 'Bill Due Soon', message: '15 tenants have bills due in 3 days', time: '2 hours ago', unread: false },
     { id: 4, title: 'Meter Reading', message: 'Staff completed 25 readings today', time: '5 hours ago', unread: false },
   ]
 
   const unreadCount = notifications.filter(n => n.unread).length
+
+  const handleLogout = () => {
+    setShowProfile(false)
+    router.push('/')
+  }
+
+  const handleNavigate = (path: string) => {
+    setShowProfile(false)
+    router.push(path)
+  }
 
   return (
     <header className="glass-navbar sticky top-0 z-40">
@@ -76,7 +100,7 @@ export default function Header({ title, subtitle, user }: HeaderProps) {
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 top-full mt-2 w-80 bg-slate-900/90 backdrop-blur-xl border border-white/20 rounded-2xl shadow-glass overflow-hidden z-50"
+                    className="absolute right-0 top-full mt-2 w-80 bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-glass overflow-hidden z-50"
                   >
                     <div className="p-4 border-b border-white/10">
                       <h3 className="font-semibold text-white">Notifications</h3>
@@ -141,22 +165,48 @@ export default function Header({ title, subtitle, user }: HeaderProps) {
                     initial={{ opacity: 0, y: 10, scale: 0.95 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute right-0 top-full mt-2 w-56 bg-slate-900/90 backdrop-blur-xl border border-white/20 rounded-2xl shadow-glass p-2 z-50"
+                    className="absolute right-0 top-full mt-2 w-56 bg-slate-900/95 backdrop-blur-xl border border-white/20 rounded-2xl shadow-glass p-2 z-50"
                   >
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white">
+                    {/* User Info */}
+                    <div className="px-3 py-2 mb-2 border-b border-white/10">
+                      <p className="text-sm font-medium text-white">{user?.name || 'User'}</p>
+                      <p className="text-xs text-white/50">{user?.email || 'user@example.com'}</p>
+                    </div>
+
+                    {/* Profile Link */}
+                    <button
+                      onClick={() => handleNavigate(`${basePath}/profile`)}
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+                    >
                       <User className="w-4 h-4" />
                       <span className="text-sm">Profile</span>
                     </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white">
+
+                    {/* Settings Link */}
+                    <button
+                      onClick={() => handleNavigate(`${basePath}/settings`)}
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+                    >
                       <Settings className="w-4 h-4" />
                       <span className="text-sm">Settings</span>
                     </button>
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white">
+
+                    {/* Help Center Link */}
+                    <button
+                      onClick={() => handleNavigate(`${basePath}/help`)}
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors text-white/80 hover:text-white"
+                    >
                       <HelpCircle className="w-4 h-4" />
                       <span className="text-sm">Help Center</span>
                     </button>
+
                     <div className="my-2 border-t border-white/10" />
-                    <button className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-500/10 transition-colors text-white/80 hover:text-red-400">
+
+                    {/* Logout Button */}
+                    <button
+                      onClick={handleLogout}
+                      className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-500/10 transition-colors text-white/80 hover:text-red-400"
+                    >
                       <LogOut className="w-4 h-4" />
                       <span className="text-sm">Logout</span>
                     </button>

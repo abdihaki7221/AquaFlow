@@ -15,11 +15,9 @@ import {
   ChevronRight,
   Gauge,
   CreditCard,
-  UserPlus,
   BarChart3,
   Home,
-  Receipt,
-  HelpCircle
+  Receipt
 } from 'lucide-react'
 
 interface SidebarProps {
@@ -41,17 +39,16 @@ export default function Sidebar({ role }: SidebarProps) {
     ],
     staff: [
       { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard/staff' },
-      { icon: UserPlus, label: 'Onboard Tenant', href: '/dashboard/staff/onboard' },
       { icon: Users, label: 'Tenants', href: '/dashboard/staff/tenants' },
       { icon: Gauge, label: 'Meter Readings', href: '/dashboard/staff/meters' },
-      { icon: Receipt, label: 'Billing', href: '/dashboard/staff/billing' },
+      { icon: Settings, label: 'Settings', href: '/dashboard/staff/settings' },
     ],
     tenant: [
       { icon: Home, label: 'Dashboard', href: '/dashboard/tenant' },
       { icon: Gauge, label: 'Water Usage', href: '/dashboard/tenant/usage' },
       { icon: CreditCard, label: 'Pay Bills', href: '/dashboard/tenant/billing' },
       { icon: Receipt, label: 'Transactions', href: '/dashboard/tenant/transactions' },
-      { icon: HelpCircle, label: 'Support', href: '/dashboard/tenant/support' },
+      { icon: Settings, label: 'Settings', href: '/dashboard/tenant/settings' },
     ],
   }
 
