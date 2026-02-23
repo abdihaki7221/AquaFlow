@@ -1,0 +1,6 @@
+{
+  "/page": "app/page.js",
+  "/dashboard/admin/analytics/page": "app/dashboard/admin/analytics/page.js",
+  "/dashboard/admin/users/page": "app/dashboard/admin/users/page.js",
+  "/dashboard/admin/page": "app/dashboard/admin/page.js"
+}
